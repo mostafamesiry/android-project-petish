@@ -44,14 +44,16 @@ public class Main2Activity extends AppCompatActivity {
 //                        .setAction("Action", null).show();
 //            }
 //        });
+
+
         Intent intent = getIntent();
-
         ListView listView = (ListView)this.findViewById(R.id.listView);
-
         Log.d("DB","Database initialized");
         MainActivity.db = new com.example.zeid.lab5.DBHandler(this);
-        ArrayList<Bus> buses =MainActivity.db.getAllBuses();
 
+
+        Log.d("Frontend","Fill frontend with db");
+        ArrayList<Bus> buses =MainActivity.db.getAllBuses();
         data = new ArrayList<String>();
         for (int i =0;i<buses.size();i++) {
             data.add(buses.get(i).date + "," + buses.get(i).name + "," +
@@ -63,6 +65,7 @@ public class Main2Activity extends AppCompatActivity {
     }
     public void addPetButtonPressed(View view)
     {
+        Log.d("Frontend","Go to form to fill pet information");
         Intent intent = new Intent(this,MainActivity.class);
         startActivity(intent);
         finish();
@@ -99,12 +102,14 @@ Log.d("Error",sqlEx.toString());
     }
 }
     public void clearDataBase(View view){
+        Log.d("DB","Database cleared");
         MainActivity.db.onUpgrade(MainActivity.db.getWritableDatabase(),0,0);
         ListView listView = (ListView)this.findViewById(R.id.listView);
         listView.setAdapter(null);
     }
     public  void settingsClickedButton(View view)
     {
+        Log.d("Frontend","Go to Settings");
         Intent intent = new Intent(this,Main3Activity.class);
         startActivity(intent);
     }

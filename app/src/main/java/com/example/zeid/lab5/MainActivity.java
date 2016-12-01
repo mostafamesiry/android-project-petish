@@ -40,18 +40,18 @@ public class MainActivity extends AppCompatActivity {
         preferenceSettings = getPreferences(PREFERENCE_MODE_PRIVATE);
         preferenceEditor = preferenceSettings.edit();
 
-            Intent intent = new Intent(this, Main2Activity.class);
-            startActivity(intent);
-            finish();
+
 
     }
 
     public void addPetButtonPressed(View view)
     {
+        Log.d("DB","Add Pet to DB");
+        Log.d("Frontend","Go back to main screen");
 
        String name = ((TextView)this.findViewById(R.id.NameText)).getText().toString();
         String breed = ((TextView)this.findViewById(R.id.BreedText)).getText().toString();
-        int age = Integer.parseInt(  ((TextView)this.findViewById(R.id.AgeText)).getText().toString()  );
+        int age = Integer.parseInt(  ((TextView)this.findViewById(R.id.AgeText)).getText().toString() );
          db.addPet(new Date(),name, breed,age);
         Intent intent = new Intent(this,Main2Activity.class);
         startActivity(intent);
@@ -60,6 +60,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void backButtonPressed(View view)
     {
+        Log.d("Frontend","Go back to main screen");
         Intent intent = new Intent(this,Main2Activity.class);
         startActivity(intent);
         finish();

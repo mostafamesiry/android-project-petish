@@ -68,8 +68,6 @@ public class DBHandler extends  SQLiteOpenHelper{
 
     public ArrayList<Bus> getAllBuses()
     {
-
-
         ArrayList<Bus> buses = new ArrayList<Bus>();
         String selQuery = "SELECT * FROM " + TABLE_BUS;
         SQLiteDatabase db = this.getWritableDatabase();

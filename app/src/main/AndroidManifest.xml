@@ -29,6 +29,7 @@
             android:label="@string/title_activity_main3"
             android:theme="@style/AppTheme.NoActionBar"></activity>
 
+        <receiver android:name=".NotificationEventReceiver" />
     </application>
 
 </manifest>

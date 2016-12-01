@@ -29,15 +29,14 @@ public class NotificationEventReceiver extends WakefulBroadcastReceiver {
     private static final double NOTIFICATIONS_INTERVAL_IN_SECONDS = 0.00027778;
     private static int NOTIFICATION_ID = 1;
     public static AppCompatActivity mainActivity;
-    public static SeekBar seekBar;
-    public static VideoView videoView;
     public static int second;
+    public static boolean appOpened;
 
-    public static void setupAlarm(SeekBar s, VideoView v, Context context, AppCompatActivity main) {
-        seekBar=s;
-        videoView = v;
+    public static void setupAlarm(Context context, AppCompatActivity main) {
+        Log.d("CREATED","CREATED");
         mainActivity=main;
         second = 0;
+        appOpened = true;
         AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
         PendingIntent alarmIntent = getStartPendingIntent(context);
         alarmManager.setRepeating(AlarmManager.RTC_WAKEUP,
@@ -49,32 +48,40 @@ public class NotificationEventReceiver extends WakefulBroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
 
-        if(videoView.isPlaying())
-        {
-            double set = (videoView.getCurrentPosition()*10)/5573;
-            Log.d("SET",set+"");
-            seekBar.setProgress((int)
-                    set);
-        }
-        Log.d("VIDEO",videoView.getCurrentPosition()+"");
-
-        if (second == 10) {
-            second = 0;
-            final NotificationCompat.Builder builder = new NotificationCompat.Builder(mainActivity);
-            builder.setContentTitle("AD")
-                    .setAutoCancel(true)
-                    .setColor(mainActivity.getResources().getColor(R.color.colorAccent))
-                    .setContentText("Enjoying our free stream, subscribe to our premium for better quality")
-                    .setSmallIcon(R.mipmap.ic_launcher);
-            NOTIFICATION_ID++;
-            final NotificationManager manager = (NotificationManager) mainActivity.getSystemService(Context.NOTIFICATION_SERVICE);
-            manager.notify(NOTIFICATION_ID, builder.build());
-        } else {
-            second++;
-
+        if(appOpened) {
+            if (second == 10) {
+                second = 0;
+                final NotificationCompat.Builder builder = new NotificationCompat.Builder(mainActivity);
+                builder.setContentTitle("Notification")
+                        .setAutoCancel(true)
+                        .setColor(mainActivity.getResources().getColor(R.color.colorAccent))
+                        .setContentText("Please don't leave the App open to save batterypower")
+                        .setSmallIcon(R.mipmap.ic_launcher);
+                NOTIFICATION_ID++;
+                final NotificationManager manager = (NotificationManager) mainActivity.getSystemService(Context.NOTIFICATION_SERVICE);
+                manager.notify(NOTIFICATION_ID, builder.build());
+            } else {
+                second++;
+            }
 
         }
     }
+
+    public static void resetCounter()
+    {
+        second=0;
+    }
+
+    public static void appClosed()
+    {
+        appOpened=false;
+    }
+
+    public static void appOpened()
+    {
+        appOpened=true;
+    }
+
 
 
     private static long getTriggerAt(Date now) {

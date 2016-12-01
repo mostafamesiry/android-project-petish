@@ -10,6 +10,7 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -28,6 +29,7 @@ public class Main2Activity extends AppCompatActivity {
 
 
     ArrayList<String> data;
+    public static NotificationEventReceiver ner;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -35,6 +37,7 @@ public class Main2Activity extends AppCompatActivity {
         setTitle("Petish");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main2);
+        ner.setupAlarm(getApplicationContext(),this);
 
 //        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
 //        fab.setOnClickListener(new View.OnClickListener() {
@@ -62,6 +65,28 @@ public class Main2Activity extends AppCompatActivity {
 
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, data);
         listView.setAdapter(adapter);
+    }
+
+    @Override
+    public void onPause()
+    {
+        super.onPause();
+        ner.appClosed();
+        Log.d("App closed","App closed");
+    }
+
+    @Override
+    public void onResume(){
+        super.onResume();
+        ner.appOpened();
+        Log.d("App opened","App opened");
+    }
+
+
+    @Override
+    public void onUserInteraction(){
+        Log.d("Feedback","Screentouched");
+        ner.resetCounter();
     }
     public void addPetButtonPressed(View view)
     {
@@ -113,4 +138,5 @@ Log.d("Error",sqlEx.toString());
         Intent intent = new Intent(this,Main3Activity.class);
         startActivity(intent);
     }
+
 }

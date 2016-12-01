@@ -13,6 +13,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.TextView;
 
@@ -43,6 +44,26 @@ public class MainActivity extends AppCompatActivity {
 
 
     }
+    public void onUserInteraction(){
+        Log.d("Feedback","Screentouched");
+        Main2Activity.ner.resetCounter();
+    }
+
+    @Override
+    public void onPause()
+    {
+        super.onPause();
+        Main2Activity.ner.appClosed();
+        Log.d("App closed","App closed");
+    }
+
+    @Override
+    public void onResume(){
+        super.onResume();
+        Main2Activity.ner.appOpened();
+        Log.d("App opened","App opened");
+    }
+
 
     public void addPetButtonPressed(View view)
     {

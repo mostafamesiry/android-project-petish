@@ -36,18 +36,15 @@ public class Main2Activity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main2);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
+//        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+//        fab.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+//                        .setAction("Action", null).show();
+//            }
+//        });
         Intent intent = getIntent();
-        String userName = intent.getStringExtra("username");
-
-//        ((Button)this.findViewById(R.id.logout)).setText(userName);
 
         ListView listView = (ListView)this.findViewById(R.id.listView);
 
@@ -66,8 +63,6 @@ public class Main2Activity extends AppCompatActivity {
     }
     public void addPetButtonPressed(View view)
     {
-//        MainActivity.preferenceEditor.putBoolean("LoggedIn",false);
-//        MainActivity.preferenceEditor.commit();
         Intent intent = new Intent(this,MainActivity.class);
         startActivity(intent);
         finish();

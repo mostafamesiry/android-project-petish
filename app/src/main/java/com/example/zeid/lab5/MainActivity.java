@@ -72,24 +72,6 @@ public class MainActivity extends AppCompatActivity {
                 gender = "";
             }
         });
-        Spinner Type = (Spinner) this.findViewById(R.id.AnimalType);
-        String[] types = new String[]{"Cat", "Dog", "Fish", "Bird", "Tortoise", "Parrot", "Lizzard"};
-        ArrayAdapter<String> adapterTypes = new ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, types);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        Type.setAdapter(adapterTypes);
-        Type.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view,
-                                       int position, long id) {
-                Log.v("type", (String) parent.getItemAtPosition(position));
-                type = (String) parent.getItemAtPosition(position);
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-                type = "";
-            }
-        });
         Spinner Breed = (Spinner) this.findViewById(R.id.AnimalBreed);
 //        final String[] breeds = new String[]{"German Sheppard", "Dog", "Fish", "Bird", "Tortoise", "Parrot", "Lizzard"};
         ArrayAdapter<String> adapterBreeds = new ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, breeds);
@@ -158,8 +140,8 @@ public class MainActivity extends AppCompatActivity {
     }
     public static void threadStart(String breedName) {
 
-        MyThread thread = new MyThread(breedName);
-        new Thread(thread).start();
+//        MyThread thread = new MyThread(breedName);
+//        new Thread(thread).start();
     }
     public static void readJSON() {
         Log.d("API", "Reading JSON from local server");
@@ -181,7 +163,7 @@ public class MainActivity extends AppCompatActivity {
                         breeds = object.get("breeds").toString().split(",");
                         for(int i = 0;i<breeds.length;i++)
                         {
-                            breeds[i]= breeds[i].replace('"','~').replace("~","").replace("[","").replace("]","");
+                            breeds[i].replace('"','~').replace("~","").replace("[","").replace("]","");
                         }
                         Log.d("JSON RESULT", object.toString());
                         Log.d("Connection ID", in.read() + "");

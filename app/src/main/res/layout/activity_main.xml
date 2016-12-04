@@ -21,26 +21,9 @@
         android:ems="10"
         android:id="@+id/AgeText"
         android:layout_marginTop="25dp"
-        android:layout_below="@+id/BreedText"
-        android:layout_centerHorizontal="true" />
-
-    <Spinner
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/Gender"
-        android:layout_marginTop="27dp"
-        android:layout_below="@+id/AnimalType"
-        android:layout_alignStart="@+id/AnimalType"
-        android:layout_alignEnd="@+id/AnimalType" />
-
-    <Spinner
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/AnimalBreed"
-        android:layout_below="@+id/Gender"
-        android:layout_alignStart="@+id/Gender"
-        android:layout_marginTop="22dp"
-        android:layout_alignEnd="@+id/Gender" />
+        android:layout_below="@+id/NameText"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true" />
 
     <EditText
         android:layout_width="wrap_content"
@@ -50,18 +33,8 @@
         android:ems="10"
         android:id="@+id/NameText"
         android:layout_marginTop="34dp"
-        android:layout_below="@+id/AgeText"
-        android:layout_alignStart="@+id/AnimalType" />
-
-    <Spinner
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:spinnerMode="dropdown"
-        android:id="@+id/AnimalType"
-        android:layout_below="@+id/NameText"
-        android:layout_alignStart="@+id/AgeText"
-        android:layout_alignEnd="@+id/AgeText" />
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentStart="true" />
 
     <Button
         android:text="Add Pet"
@@ -80,5 +53,21 @@
         android:onClick="backButtonPressed"
         android:layout_alignParentBottom="true"
         android:layout_alignStart="@+id/button" />
+
+    <Spinner
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/Gender"
+        android:layout_below="@+id/AgeText"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="34dp" />
+
+    <Spinner
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/AnimalBreed"
+        android:layout_marginTop="26dp"
+        android:layout_below="@+id/Gender"
+        android:layout_alignParentStart="true" />
 
 </RelativeLayout>

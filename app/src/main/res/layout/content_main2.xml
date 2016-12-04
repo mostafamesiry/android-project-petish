@@ -17,45 +17,34 @@
         android:text="Settings"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginBottom="71dp"
         android:id="@+id/SettingsButton"
-        android:onClick="settingsClickedButton" />
+        android:onClick="settingsClickedButton"
+        android:layout_alignBaseline="@+id/logout"
+        android:layout_alignBottom="@+id/logout"
+        android:layout_alignParentEnd="true" />
+
+    <Button
+        android:text="Clear DB"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/clearDataBase"
+        android:onClick="clearDataBase"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentStart="true" />
 
     <Button
         android:text="Add Pet"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/logout"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentEnd="true"
-        android:onClick="addPetButtonPressed" />
-
-    <Button
-        android:text="Clear DataBase"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignTop="@+id/SettingsButton"
-        android:layout_alignParentStart="true"
-        android:id="@+id/clearDataBase"
-        android:onClick="clearDataBase" />
+        android:onClick="addPetButtonPressed"
+        android:layout_alignParentBottom="true"
+        android:layout_marginLeft="100dp" />
 
     <ListView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_marginBottom="70dp"
         android:id="@+id/listView"
-        android:layout_above="@+id/clearDataBase"
-        android:layout_toStartOf="@+id/SettingsButton"
-        android:layout_marginBottom="54dp" />
-
-    <Button
-        android:text="csv"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/button5"
-        android:layout_below="@+id/listView"
-        android:layout_toStartOf="@+id/SettingsButton"
-        android:layout_marginEnd="11dp"
-        android:onClick="saveCSV" />
+        android:layout_alignParentStart="true" />
 </RelativeLayout>

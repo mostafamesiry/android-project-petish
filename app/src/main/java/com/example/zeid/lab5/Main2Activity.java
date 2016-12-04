@@ -1,6 +1,8 @@
 package com.example.zeid.lab5;
 
 import android.content.Intent;
+import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
@@ -14,6 +16,8 @@ import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.util.ArrayList;
 
+import static java.security.AccessController.getContext;
+
 
 public class Main2Activity extends AppCompatActivity {
 
@@ -23,10 +27,12 @@ public class Main2Activity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
-
         setTitle("Petish");
+        registerReceiver(new BatteryLevelReceiver(), new IntentFilter(
+                Intent.ACTION_BATTERY_LOW));
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main2);
+        getWindow().getAttributes().windowAnimations = R.style.Fade;
         ner.setupAlarm(getApplicationContext(),this);
 
 

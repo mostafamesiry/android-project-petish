@@ -26,7 +26,6 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.net.URLConnection;
 import java.net.URLEncoder;
 import java.util.Date;
 
@@ -41,12 +40,14 @@ public class MainActivity extends AppCompatActivity {
     public String gender="";
     public String type="";
     public String breed="";
+    public static String[] breeds = new String[0];
     LocationManager locationManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
+        readJSON();
         super.onCreate(savedInstanceState);
+        getWindow().getAttributes().windowAnimations = R.style.Fade;
         setContentView(R.layout.activity_main);
 
         ((TextView)this.findViewById(R.id.NameText)).requestFocus();
@@ -90,7 +91,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
         Spinner Breed = (Spinner) this.findViewById(R.id.AnimalBreed);
-        final String[] breeds = new String[]{"German Sheppard", "Dog", "Fish", "Bird", "Tortoise", "Parrot", "Lizzard"};
+//        final String[] breeds = new String[]{"German Sheppard", "Dog", "Fish", "Bird", "Tortoise", "Parrot", "Lizzard"};
         ArrayAdapter<String> adapterBreeds = new ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, breeds);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         Breed.setAdapter(adapterBreeds);
@@ -160,7 +161,48 @@ public class MainActivity extends AppCompatActivity {
         MyThread thread = new MyThread(breedName);
         new Thread(thread).start();
     }
+    public static void readJSON() {
+        Log.d("API", "Reading JSON from local server");
+        Thread thread = new Thread(new Runnable() {
+            String jsonString = "";
+            @Override
+            public void run() {
+                try {
 
+                    URL url = new URL("http://10.0.2.2:8000/breeds.json");
+                    HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
+                    try {
+                        String inputlines = "";
+                        BufferedReader in = new BufferedReader(new InputStreamReader(url.openStream()));
+                        while ((inputlines = in.readLine()) != null) {
+                            jsonString += inputlines;
+                        }
+                        JSONObject object = new JSONObject(jsonString);
+                        breeds = object.get("breeds").toString().split(",");
+                        for(int i = 0;i<breeds.length;i++)
+                        {
+                            breeds[i]= breeds[i].replace('"','~').replace("~","").replace("[","").replace("]","");
+                        }
+                        Log.d("JSON RESULT", object.toString());
+                        Log.d("Connection ID", in.read() + "");
+                    } finally {
+                        urlConnection.disconnect();
+                    }
+                } catch (Exception e) {
+                    Log.d("Error", "Couldn't access local host");
+                    e.printStackTrace();
+                }
+            }
+        });
+        thread.start();
+        try {
+            thread.join();
+        }
+        catch(Exception e)
+        {
+            Log.d("Error", "Couldn't wait for thread to execute");
+        }
+    }
 }
 class MyThread implements Runnable {
     String breed ;
@@ -194,5 +236,6 @@ class MyThread implements Runnable {
             Log.d("Error", "Error");
             e.printStackTrace();
         }
+
     }
 }

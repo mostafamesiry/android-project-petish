@@ -17,6 +17,7 @@ public class Main3Activity extends AppCompatActivity {
         Log.d("Frontend","Initializing Settings");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main3);
+        getWindow().getAttributes().windowAnimations = R.style.Fade;
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 

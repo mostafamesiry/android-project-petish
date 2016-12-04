@@ -60,10 +60,9 @@ public class DBHandler extends  SQLiteOpenHelper{
 
     public ArrayList<Pet> getAllPets()
     {
-
-
         ArrayList<Pet> pets = new ArrayList<Pet>();
         String selQuery = "SELECT * FROM " + TABLE_PETS;
+
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = db.rawQuery(selQuery,null);
 

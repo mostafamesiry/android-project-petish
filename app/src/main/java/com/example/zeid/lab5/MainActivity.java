@@ -13,6 +13,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -100,14 +101,38 @@ public class MainActivity extends AppCompatActivity {
         });
 
 
+
     }
+    public void onUserInteraction(){
+        Log.d("Feedback","Screentouched");
+        Main2Activity.ner.resetCounter();
+    }
+
+    @Override
+    public void onPause()
+    {
+        super.onPause();
+        Main2Activity.ner.appClosed();
+        Log.d("App closed","App closed");
+    }
+
+    @Override
+    public void onResume(){
+        super.onResume();
+        Main2Activity.ner.appOpened();
+        Log.d("App opened","App opened");
+    }
+
 
     public void addPetButtonPressed(View view)
     {
+        Log.d("DB","Add Pet to DB");
+        Log.d("Frontend","Go back to main screen");
 
        String name = ((TextView)this.findViewById(R.id.NameText)).getText().toString();
         int age = Integer.parseInt(  ((TextView)this.findViewById(R.id.AgeText)).getText().toString()  );
         db.addPet(name, new Date(), breed,  gender,  type, age);
+
         Intent intent = new Intent(this,Main2Activity.class);
         startActivity(intent);
         finish();
@@ -115,6 +140,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void backButtonPressed(View view)
     {
+        Log.d("Frontend","Go back to main screen");
         Intent intent = new Intent(this,Main2Activity.class);
         startActivity(intent);
         finish();

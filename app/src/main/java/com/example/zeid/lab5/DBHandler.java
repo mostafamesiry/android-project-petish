@@ -32,6 +32,9 @@ public class DBHandler extends  SQLiteOpenHelper{
 
     private  static final  String GENDER = "gender";
 
+    private  static final  String LINK = "link";
+
+
     public DBHandler(Context context){
         super(context, DATABASE_NAME, null,DATABASE_VERSION);
     }
@@ -39,11 +42,11 @@ public class DBHandler extends  SQLiteOpenHelper{
     @Override
     public void onCreate(SQLiteDatabase db){
         Log.d("Created","Created");
-        String CREATE_TABLE = "CREATE TABLE " + TABLE_PETS + "(" + ACTION_TIMESTAMP + " TEXT," + NAME + " TEXT," +  TYPE  + " TEXT," + BREED + " TEXT," + AGE +" INTEGER," + GENDER + " TEXT)";
+        String CREATE_TABLE = "CREATE TABLE " + TABLE_PETS + "(" + ACTION_TIMESTAMP + " TEXT," + NAME + " TEXT," +  TYPE  + " TEXT," + BREED + " TEXT," + AGE +" INTEGER," + GENDER + " TEXT,"+ LINK + " TEXT)";
         db.execSQL(CREATE_TABLE);
     }
 
-    public void addPet(String name, Date date, String breed, String gender, String type,int age ){
+    public void addPet(String name, Date date, String breed, String gender, String type,int age ,String link){
 
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
@@ -53,6 +56,7 @@ public class DBHandler extends  SQLiteOpenHelper{
         values.put(TYPE,type);
         values.put(GENDER,gender);
         values.put(AGE,age);
+        values.put(LINK,link);
 
         db.insert(TABLE_PETS,null,values);
         db.close();
@@ -68,11 +72,12 @@ public class DBHandler extends  SQLiteOpenHelper{
 
         if (cursor.moveToFirst())
         {
+            Log.d("cursor",cursor.getString(5));
             do {
 
                 Pet pet = new Pet(cursor.getString(0), cursor.getString(1),cursor.getString(2),
                                   cursor.getString(3), Integer.parseInt( cursor.getString(4)),
-                                  cursor.getString(5));
+                                  cursor.getString(5),cursor.getString(6));
                 pets.add(pet);
             }
             while (cursor.moveToNext());

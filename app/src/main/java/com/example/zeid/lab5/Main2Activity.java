@@ -82,6 +82,7 @@ public class Main2Activity extends AppCompatActivity {
             hm.put("flag", Integer.toString(flags[i]) );
             hm.put("age",ages[i]);
             aList.add(hm);
+
         }
 
         // Keys used in Hashmap

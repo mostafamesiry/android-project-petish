@@ -28,8 +28,8 @@ public class Main2Activity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
 
         setTitle("Petish");
-        registerReceiver(new BatteryLevelReceiver(), new IntentFilter(
-                Intent.ACTION_BATTERY_LOW));
+//        registerReceiver(new BatteryLevelReceiver(), new IntentFilter(
+//                Intent.ACTION_BATTERY_LOW));
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main2);
         getWindow().getAttributes().windowAnimations = R.style.Fade;
@@ -44,7 +44,7 @@ public class Main2Activity extends AppCompatActivity {
         data = new ArrayList();
         for (int i =0;i<pets.size();i++) {
             data.add(pets.get(i).date + "," + pets.get(i).name + "," +
-                    pets.get(i).breed + "," + pets.get(i).age );
+                    pets.get(i).breed + "," + pets.get(i).age +" , " + pets.get(i).link +"kiko");
         }
 
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, data);

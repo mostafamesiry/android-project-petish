@@ -41,11 +41,13 @@ public class MainActivity extends AppCompatActivity {
     public String type="";
     public String breed="";
     public static String[] breeds = new String[0];
+    public static boolean linkFound = false;
+    public static String link = "";
     LocationManager locationManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        readJSON();
+//        readJSON();
         super.onCreate(savedInstanceState);
         getWindow().getAttributes().windowAnimations = R.style.Fade;
         setContentView(R.layout.activity_main);
@@ -91,7 +93,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
         Spinner Breed = (Spinner) this.findViewById(R.id.AnimalBreed);
-//        final String[] breeds = new String[]{"German Sheppard", "Dog", "Fish", "Bird", "Tortoise", "Parrot", "Lizzard"};
+        final String[] breeds = new String[]{"German Sheppard", "Dog", "Fish", "Bird", "Tortoise", "Parrot", "Lizzard"};
         ArrayAdapter<String> adapterBreeds = new ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, breeds);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         Breed.setAdapter(adapterBreeds);
@@ -141,7 +143,8 @@ public class MainActivity extends AppCompatActivity {
 
        String name = ((TextView)this.findViewById(R.id.NameText)).getText().toString();
         int age = Integer.parseInt(  ((TextView)this.findViewById(R.id.AgeText)).getText().toString()  );
-        db.addPet(name, new Date(), breed,  gender,  type, age);
+        while(!linkFound);
+        db.addPet(name, new Date(), breed,  gender,  type, age, link);
 
 
         Intent intent = new Intent(this,Main2Activity.class);
@@ -157,52 +160,51 @@ public class MainActivity extends AppCompatActivity {
         finish();
     }
     public static void threadStart(String breedName) {
-
         MyThread thread = new MyThread(breedName);
         new Thread(thread).start();
     }
-    public static void readJSON() {
-        Log.d("API", "Reading JSON from local server");
-        Thread thread = new Thread(new Runnable() {
-            String jsonString = "";
-            @Override
-            public void run() {
-                try {
-
-                    URL url = new URL("http://10.0.2.2:8000/breeds.json");
-                    HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
-                    try {
-                        String inputlines = "";
-                        BufferedReader in = new BufferedReader(new InputStreamReader(url.openStream()));
-                        while ((inputlines = in.readLine()) != null) {
-                            jsonString += inputlines;
-                        }
-                        JSONObject object = new JSONObject(jsonString);
-                        breeds = object.get("breeds").toString().split(",");
-                        for(int i = 0;i<breeds.length;i++)
-                        {
-                            breeds[i]= breeds[i].replace('"','~').replace("~","").replace("[","").replace("]","");
-                        }
-                        Log.d("JSON RESULT", object.toString());
-                        Log.d("Connection ID", in.read() + "");
-                    } finally {
-                        urlConnection.disconnect();
-                    }
-                } catch (Exception e) {
-                    Log.d("Error", "Couldn't access local host");
-                    e.printStackTrace();
-                }
-            }
-        });
-        thread.start();
-        try {
-            thread.join();
-        }
-        catch(Exception e)
-        {
-            Log.d("Error", "Couldn't wait for thread to execute");
-        }
-    }
+//    public static void readJSON() {
+//        Log.d("API", "Reading JSON from local server");
+//        Thread thread = new Thread(new Runnable() {
+//            String jsonString = "";
+//            @Override
+//            public void run() {
+//                try {
+//
+//                    URL url = new URL("http://10.0.2.2:8000/breeds.json");
+//                    HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
+//                    try {
+//                        String inputlines = "";
+//                        BufferedReader in = new BufferedReader(new InputStreamReader(url.openStream()));
+//                        while ((inputlines = in.readLine()) != null) {
+//                            jsonString += inputlines;
+//                        }
+//                        JSONObject object = new JSONObject(jsonString);
+//                        breeds = object.get("breeds").toString().split(",");
+//                        for(int i = 0;i<breeds.length;i++)
+//                        {
+//                            breeds[i]= breeds[i].replace('"','~').replace("~","").replace("[","").replace("]","");
+//                        }
+//                        Log.d("JSON RESULT", object.toString());
+//                        Log.d("Connection ID", in.read() + "");
+//                    } finally {
+//                        urlConnection.disconnect();
+//                    }
+//                } catch (Exception e) {
+//                    Log.d("Error", "Couldn't access local host");
+//                    e.printStackTrace();
+//                }
+//            }
+//        });
+//        thread.start();
+//        try {
+//            thread.join();
+//        }
+//        catch(Exception e)
+//        {
+//            Log.d("Error", "Couldn't wait for thread to execute");
+//        }
+//    }
 }
 class MyThread implements Runnable {
     String breed ;
@@ -227,8 +229,10 @@ class MyThread implements Runnable {
                 items = items.replace("[", "");
                 items = items.replace("]", "");
                 JSONObject results = new JSONObject(items);
-                String link = results.get("link") + "";
-                Log.d("resul", link);
+                MainActivity.link = results.get("link") + "";
+                Log.d("resul", MainActivity.link);
+                MainActivity.linkFound = true;
+
             } finally {
                 urlConnection.disconnect();
             }

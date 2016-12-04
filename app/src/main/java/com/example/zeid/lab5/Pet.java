@@ -12,13 +12,15 @@ public class Pet {
     public String breed;
     public String gender;
     public int age;
+    public String link;
 
-    public Pet(String date, String name, String type, String breed, int age , String gender){
+    public Pet(String date, String name, String type, String breed, int age , String gender, String link){
         this.date = date;
         this.name = name;
         this.type = type;
         this.breed = breed;
         this.gender = gender;
         this.age = age;
+        this.link = link;
     }
 }

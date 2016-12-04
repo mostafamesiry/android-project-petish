@@ -20,6 +20,14 @@ import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import org.json.JSONObject;
+
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.net.URLConnection;
+import java.net.URLEncoder;
 import java.util.Date;
 
 public class MainActivity extends AppCompatActivity {
@@ -92,6 +100,7 @@ public class MainActivity extends AppCompatActivity {
                                        int position, long id) {
                 Log.v("type", (String) parent.getItemAtPosition(position));
                 breed = (String) parent.getItemAtPosition(position);
+                threadStart(breed);
             }
 
             @Override
@@ -133,6 +142,7 @@ public class MainActivity extends AppCompatActivity {
         int age = Integer.parseInt(  ((TextView)this.findViewById(R.id.AgeText)).getText().toString()  );
         db.addPet(name, new Date(), breed,  gender,  type, age);
 
+
         Intent intent = new Intent(this,Main2Activity.class);
         startActivity(intent);
         finish();
@@ -145,5 +155,44 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
         finish();
     }
+    public static void threadStart(String breedName) {
 
+        MyThread thread = new MyThread(breedName);
+        new Thread(thread).start();
+    }
+
+}
+class MyThread implements Runnable {
+    String breed ;
+    String jsonString = "";
+    public MyThread(String breed) {
+       this.breed = breed;
+    }
+
+    public void run() {
+        try {
+            Log.d("ss", "tt");
+            URL url = new URL("https://www.googleapis.com/customsearch/v1?key=AIzaSyCNycA4uQW47LBZcqr6AQvjUNF8q3OOuyU&cx=002441175508441743644:qmd_a7ahiok&q="+ URLEncoder.encode(breed, "UTF-8")+"&searchType=image&fileType=jpg&imgSize=medium&alt=json&num=1&start=1");
+            HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
+            try {
+                String inputlines = "";
+                BufferedReader in = new BufferedReader(new InputStreamReader(url.openStream()));
+                while ((inputlines = in.readLine()) != null) {
+                    jsonString += inputlines;
+                }
+                JSONObject object = new JSONObject(jsonString);
+                String items = object.get("items") + "";
+                items = items.replace("[", "");
+                items = items.replace("]", "");
+                JSONObject results = new JSONObject(items);
+                String link = results.get("link") + "";
+                Log.d("resul", link);
+            } finally {
+                urlConnection.disconnect();
+            }
+        } catch (Exception e) {
+            Log.d("Error", "Error");
+            e.printStackTrace();
+        }
+    }
 }

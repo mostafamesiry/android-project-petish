@@ -16,21 +16,21 @@ import java.util.List;
 public class DBHandler extends  SQLiteOpenHelper{
     private static final int DATABASE_VERSION = 1;
 
-    private  static final String DATABASE_NAME = "UsersBus";
+    private  static final String DATABASE_NAME = "USERPETS";
 
-    private  static final String TABLE_BUS = "Pets";
+    private  static final String TABLE_PETS = "Pets";
 
     private static final String ACTION_TIMESTAMP = "timeStamp";
 
-    private  static  final  String NAME = "username";
+    private  static  final  String NAME = "name";
 
     private  static  final  String BREED = "breed";
 
     private  static  final  String AGE = "age";
 
-    private static final String LATITUDE = "latitude";
+    private static final String TYPE = "type";
 
-    private  static final  String LONGITUDE = "longitude";
+    private  static final  String GENDER = "gender";
 
     public DBHandler(Context context){
         super(context, DATABASE_NAME, null,DATABASE_VERSION);
@@ -38,38 +38,31 @@ public class DBHandler extends  SQLiteOpenHelper{
 
     @Override
     public void onCreate(SQLiteDatabase db){
-        String CREATE_TABLE = "CREATE TABLE " + TABLE_BUS + "(" + ACTION_TIMESTAMP + " TEXT," + NAME + " TEXT," + BREED + " TEXT," + AGE +" INTEGER" + ")";
+        Log.d("Created","Created");
+        String CREATE_TABLE = "CREATE TABLE " + TABLE_PETS + "(" + ACTION_TIMESTAMP + " TEXT," + NAME + " TEXT," +  TYPE  + " TEXT," + BREED + " TEXT," + AGE +" INTEGER," + GENDER + " TEXT)";
         db.execSQL(CREATE_TABLE);
     }
 
-    public void addBus(String username, Date actiontimestamp, double lat, double longitude){
+    public void addPet(String name, Date date, String breed, String gender, String type,int age ){
+
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
-        values.put(NAME,username);
-        values.put(ACTION_TIMESTAMP,actiontimestamp.toString());
-        values.put(LATITUDE,lat);
-        values.put(LONGITUDE,longitude);
-
-        db.insert(TABLE_BUS,null,values);
-        db.close();
-    }
-
-    public void addPet(Date actiontimestamp, String name, String breed, int age){
-        SQLiteDatabase db = this.getWritableDatabase();
-        ContentValues values = new ContentValues();
-        values.put(ACTION_TIMESTAMP,actiontimestamp.toString());
         values.put(NAME,name);
+        values.put(ACTION_TIMESTAMP,date.toString());
         values.put(BREED,breed);
+        values.put(TYPE,type);
+        values.put(GENDER,gender);
         values.put(AGE,age);
 
-        db.insert(TABLE_BUS,null,values);
+        db.insert(TABLE_PETS,null,values);
         db.close();
     }
 
-    public ArrayList<Bus> getAllBuses()
+    public ArrayList<Pet> getAllPets()
     {
-        ArrayList<Bus> buses = new ArrayList<Bus>();
-        String selQuery = "SELECT * FROM " + TABLE_BUS;
+        ArrayList<Pet> pets = new ArrayList<Pet>();
+        String selQuery = "SELECT * FROM " + TABLE_PETS;
+
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = db.rawQuery(selQuery,null);
 
@@ -77,24 +70,23 @@ public class DBHandler extends  SQLiteOpenHelper{
         {
             do {
 
-                Bus bus = new Bus();
-                bus.date = cursor.getString(0);
-                bus.name = cursor.getString(1);
-                bus.breed =  cursor.getString(2);
-                bus.age = Integer.parseInt( cursor.getString(3));
-
-                buses.add(bus);
+                Pet pet = new Pet(cursor.getString(0), cursor.getString(1),cursor.getString(2),
+                                  cursor.getString(3), Integer.parseInt( cursor.getString(4)),
+                                  cursor.getString(5));
+                pets.add(pet);
             }
             while (cursor.moveToNext());
         }
-        return buses;
+        return pets;
     }
 
     @Override
     public  void onUpgrade(SQLiteDatabase db,int oldVersion,int newVersion)
     {
-        db.execSQL("DROP TABLE IF EXISTS " + TABLE_BUS);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_PETS);
+        Log.d("delete","deleted");
         onCreate(db);
+
     }
 
 }

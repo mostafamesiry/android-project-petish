@@ -13,16 +13,6 @@
     tools:context="com.example.zeid.lab5.MainActivity">
 
 
-    <Button
-        android:text="Back"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/button3"
-        android:onClick="backButtonPressed"
-        android:layout_alignParentBottom="true"
-        android:layout_alignStart="@+id/button"
-        android:layout_marginBottom="27dp" />
-
     <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -34,16 +24,23 @@
         android:layout_below="@+id/BreedText"
         android:layout_centerHorizontal="true" />
 
-    <EditText
-        android:layout_width="wrap_content"
+    <Spinner
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:inputType="textPersonName"
-        android:hint="Breed"
-        android:ems="10"
-        android:id="@+id/BreedText"
-        android:layout_marginTop="25dp"
-        android:layout_below="@+id/NameText"
-        android:layout_alignStart="@+id/AgeText" />
+        android:id="@+id/Gender"
+        android:layout_marginTop="27dp"
+        android:layout_below="@+id/AnimalType"
+        android:layout_alignStart="@+id/AnimalType"
+        android:layout_alignEnd="@+id/AnimalType" />
+
+    <Spinner
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/AnimalBreed"
+        android:layout_below="@+id/Gender"
+        android:layout_alignStart="@+id/Gender"
+        android:layout_marginTop="22dp"
+        android:layout_alignEnd="@+id/Gender" />
 
     <EditText
         android:layout_width="wrap_content"
@@ -52,9 +49,19 @@
         android:hint="Name"
         android:ems="10"
         android:id="@+id/NameText"
-        android:layout_marginTop="25dp"
-        android:layout_alignParentTop="true"
-        android:layout_alignStart="@+id/BreedText" />
+        android:layout_marginTop="34dp"
+        android:layout_below="@+id/AgeText"
+        android:layout_alignStart="@+id/AnimalType" />
+
+    <Spinner
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:spinnerMode="dropdown"
+        android:id="@+id/AnimalType"
+        android:layout_below="@+id/NameText"
+        android:layout_alignStart="@+id/AgeText"
+        android:layout_alignEnd="@+id/AgeText" />
 
     <Button
         android:text="Add Pet"
@@ -62,8 +69,16 @@
         android:layout_height="wrap_content"
         android:id="@+id/button"
         android:onClick="addPetButtonPressed"
-        android:layout_marginBottom="28dp"
         android:layout_above="@+id/button3"
         android:layout_centerHorizontal="true" />
+
+    <Button
+        android:text="Back"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/button3"
+        android:onClick="backButtonPressed"
+        android:layout_alignParentBottom="true"
+        android:layout_alignStart="@+id/button" />
 
 </RelativeLayout>

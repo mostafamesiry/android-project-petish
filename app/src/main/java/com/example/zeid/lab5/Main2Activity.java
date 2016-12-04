@@ -2,6 +2,7 @@ package com.example.zeid.lab5;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Environment;
@@ -24,6 +25,8 @@ import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.util.ArrayList;
 
+import static java.security.AccessController.getContext;
+
 
 public class Main2Activity extends AppCompatActivity {
 
@@ -33,34 +36,24 @@ public class Main2Activity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
-
         setTitle("Petish");
+        registerReceiver(new BatteryLevelReceiver(), new IntentFilter(
+                Intent.ACTION_BATTERY_LOW));
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main2);
+        getWindow().getAttributes().windowAnimations = R.style.Fade;
         ner.setupAlarm(getApplicationContext(),this);
-
-//        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-//        fab.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-//                        .setAction("Action", null).show();
-//            }
-//        });
 
 
         Intent intent = getIntent();
         ListView listView = (ListView)this.findViewById(R.id.listView);
         Log.d("DB","Database initialized");
         MainActivity.db = new com.example.zeid.lab5.DBHandler(this);
-
-
-        Log.d("Frontend","Fill frontend with db");
-        ArrayList<Bus> buses =MainActivity.db.getAllBuses();
-        data = new ArrayList<String>();
-        for (int i =0;i<buses.size();i++) {
-            data.add(buses.get(i).date + "," + buses.get(i).name + "," +
-                    buses.get(i).breed + "," + buses.get(i).age );
+        ArrayList<Pet> pets =MainActivity.db.getAllPets();
+        data = new ArrayList();
+        for (int i =0;i<pets.size();i++) {
+            data.add(pets.get(i).date + "," + pets.get(i).name + "," +
+                    pets.get(i).breed + "," + pets.get(i).age );
         }
 
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, data);
@@ -103,13 +96,9 @@ public void saveCSV(View view)
         exportDir.mkdirs();
     }
     File file = new File(exportDir,"databaseUsers.csv");
-
     try
     {
-
         file.createNewFile();
-
-
         OutputStream st = new FileOutputStream(file.getPath());
         OutputStreamWriter wr = new OutputStreamWriter(st);
         for (int i =0;i<data.size();i++) {
@@ -117,9 +106,6 @@ public void saveCSV(View view)
         }
         wr.flush();
         wr.close();
-
-
-
     }
     catch (Exception sqlEx)
     {

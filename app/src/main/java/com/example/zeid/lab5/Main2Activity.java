@@ -28,8 +28,8 @@ public class Main2Activity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
 
         setTitle("Petish");
-//        registerReceiver(new BatteryLevelReceiver(), new IntentFilter(
-//                Intent.ACTION_BATTERY_LOW));
+        registerReceiver(new BatteryLevelReceiver(), new IntentFilter(
+                Intent.ACTION_BATTERY_LOW));
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main2);
         getWindow().getAttributes().windowAnimations = R.style.Fade;

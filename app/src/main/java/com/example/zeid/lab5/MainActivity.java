@@ -47,7 +47,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-//        readJSON();
+        readJSON();
         super.onCreate(savedInstanceState);
         getWindow().getAttributes().windowAnimations = R.style.Fade;
         setContentView(R.layout.activity_main);
@@ -163,48 +163,48 @@ public class MainActivity extends AppCompatActivity {
         MyThread thread = new MyThread(breedName);
         new Thread(thread).start();
     }
-//    public static void readJSON() {
-//        Log.d("API", "Reading JSON from local server");
-//        Thread thread = new Thread(new Runnable() {
-//            String jsonString = "";
-//            @Override
-//            public void run() {
-//                try {
-//
-//                    URL url = new URL("http://10.0.2.2:8000/breeds.json");
-//                    HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
-//                    try {
-//                        String inputlines = "";
-//                        BufferedReader in = new BufferedReader(new InputStreamReader(url.openStream()));
-//                        while ((inputlines = in.readLine()) != null) {
-//                            jsonString += inputlines;
-//                        }
-//                        JSONObject object = new JSONObject(jsonString);
-//                        breeds = object.get("breeds").toString().split(",");
-//                        for(int i = 0;i<breeds.length;i++)
-//                        {
-//                            breeds[i]= breeds[i].replace('"','~').replace("~","").replace("[","").replace("]","");
-//                        }
-//                        Log.d("JSON RESULT", object.toString());
-//                        Log.d("Connection ID", in.read() + "");
-//                    } finally {
-//                        urlConnection.disconnect();
-//                    }
-//                } catch (Exception e) {
-//                    Log.d("Error", "Couldn't access local host");
-//                    e.printStackTrace();
-//                }
-//            }
-//        });
-//        thread.start();
-//        try {
-//            thread.join();
-//        }
-//        catch(Exception e)
-//        {
-//            Log.d("Error", "Couldn't wait for thread to execute");
-//        }
-//    }
+    public static void readJSON() {
+        Log.d("API", "Reading JSON from local server");
+        Thread thread = new Thread(new Runnable() {
+            String jsonString = "";
+            @Override
+            public void run() {
+                try {
+
+                    URL url = new URL("http://10.0.2.2:8000/breeds.json");
+                    HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
+                    try {
+                        String inputlines = "";
+                        BufferedReader in = new BufferedReader(new InputStreamReader(url.openStream()));
+                        while ((inputlines = in.readLine()) != null) {
+                            jsonString += inputlines;
+                        }
+                        JSONObject object = new JSONObject(jsonString);
+                        breeds = object.get("breeds").toString().split(",");
+                        for(int i = 0;i<breeds.length;i++)
+                        {
+                            breeds[i]= breeds[i].replace('"','~').replace("~","").replace("[","").replace("]","");
+                        }
+                        Log.d("JSON RESULT", object.toString());
+                        Log.d("Connection ID", in.read() + "");
+                    } finally {
+                        urlConnection.disconnect();
+                    }
+                } catch (Exception e) {
+                    Log.d("Error", "Couldn't access local host");
+                    e.printStackTrace();
+                }
+            }
+        });
+        thread.start();
+        try {
+            thread.join();
+        }
+        catch(Exception e)
+        {
+            Log.d("Error", "Couldn't wait for thread to execute");
+        }
+    }
 }
 class MyThread implements Runnable {
     String breed ;

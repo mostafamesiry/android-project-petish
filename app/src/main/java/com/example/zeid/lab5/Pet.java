@@ -13,8 +13,12 @@ public class Pet {
     public String gender;
     public int age;
     public String link;
+    public int price;
+    public String ownerName;
+    public String ownerNumber;
 
-    public Pet(String date, String name, String type, String breed, int age , String gender, String link){
+
+    public Pet(String date, String name, String type, String breed, int age , String gender, String link, int price, String ownerName, String ownerNumber){
         this.date = date;
         this.name = name;
         this.type = type;
@@ -22,5 +26,8 @@ public class Pet {
         this.gender = gender;
         this.age = age;
         this.link = link;
+        this.price = price;
+        this.ownerName = ownerName;
+        this.ownerNumber = ownerNumber;
     }
 }

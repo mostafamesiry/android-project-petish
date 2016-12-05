@@ -34,6 +34,11 @@ public class DBHandler extends  SQLiteOpenHelper{
 
     private  static final  String LINK = "link";
 
+    private  static final  String PRICE = "price";
+
+    private  static final  String OWNERNAME = "ownername";
+
+    private  static final  String OWNERNUMBER = "ownernumber";
 
     public DBHandler(Context context){
         super(context, DATABASE_NAME, null,DATABASE_VERSION);
@@ -41,22 +46,25 @@ public class DBHandler extends  SQLiteOpenHelper{
 
     @Override
     public void onCreate(SQLiteDatabase db){
-        Log.d("Created","Created");
-        String CREATE_TABLE = "CREATE TABLE " + TABLE_PETS + "(" + ACTION_TIMESTAMP + " TEXT," + NAME + " TEXT," +  TYPE  + " TEXT," + BREED + " TEXT," + AGE +" INTEGER," + GENDER + " TEXT,"+ LINK + " TEXT)";
+        String CREATE_TABLE = "CREATE TABLE " + TABLE_PETS + "(" + ACTION_TIMESTAMP + " TEXT," + NAME + " TEXT," +  TYPE  + " TEXT," + BREED +" TEXT,"+ PRICE + " INTEGER," + AGE +" INTEGER," + GENDER + " TEXT,"+ OWNERNAME + " TEXT,"+OWNERNUMBER + " TEXT,"+LINK + " TEXT)";
         db.execSQL(CREATE_TABLE);
+        Log.d("Created","Created");
     }
 
-    public void addPet(String name, Date date, String breed, String gender, String type,int age ,String link){
+    public void addPet(String name, Date date, String breed, String gender, String type,int age ,String link, int price, String ownerName, String ownerNumber){
 
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put(NAME,name);
         values.put(ACTION_TIMESTAMP,date.toString());
         values.put(BREED,breed);
-        values.put(TYPE,type);
+        values.put(TYPE,"Dog");
         values.put(GENDER,gender);
         values.put(AGE,age);
         values.put(LINK,link);
+        values.put(PRICE,price);
+        values.put(OWNERNAME,ownerName);
+        values.put(OWNERNUMBER,ownerNumber);
 
         db.insert(TABLE_PETS,null,values);
         db.close();
@@ -72,12 +80,11 @@ public class DBHandler extends  SQLiteOpenHelper{
 
         if (cursor.moveToFirst())
         {
-            Log.d("cursor",cursor.getString(5));
+            Log.d("cursor",cursor.getString(8));
             do {
-
                 Pet pet = new Pet(cursor.getString(0), cursor.getString(1),cursor.getString(2),
-                                  cursor.getString(3), Integer.parseInt( cursor.getString(4)),
-                                  cursor.getString(5),cursor.getString(6));
+                                  cursor.getString(3), Integer.parseInt( cursor.getString(5)),
+                                  cursor.getString(6),cursor.getString(7),Integer.parseInt( cursor.getString(4)),cursor.getString(7),cursor.getString(8));
                 pets.add(pet);
             }
             while (cursor.moveToNext());

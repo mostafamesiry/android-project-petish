@@ -77,7 +77,8 @@ public class Main2Activity extends AppCompatActivity {
         for (int i =0;i<pets.size();i++) {
             names[i]=pets.get(i).name;
             breed[i]=pets.get(i).breed+"   "+pets.get(i).gender;
-            ages[i]=pets.get(i).age+"";
+            ages[i]=pets.get(i).age+" "+pets.get(i).price+"";;
+            Log.d("PRICE:",pets.get(i).price+"");
             images[i] = pets.get(i).link;
         }
             // Array of integers points to images stored in /res/drawable-ldpi/

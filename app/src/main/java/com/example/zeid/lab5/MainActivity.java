@@ -75,7 +75,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
         Spinner Breed = (Spinner) this.findViewById(R.id.AnimalBreed);
-        final String[] breeds = new String[]{"German Sheppard", "Dog", "Fish", "Bird", "Tortoise", "Parrot", "Lizzard"};
+//        final String[] breeds = new String[]{"German Sheppaasdasrd", "Dog", "Fish", "Bird", "Tortoise", "Parrot", "Lizzard"};
         ArrayAdapter<String> adapterBreeds = new ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, breeds);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         Breed.setAdapter(adapterBreeds);
@@ -85,7 +85,7 @@ public class MainActivity extends AppCompatActivity {
                                        int position, long id) {
                 Log.v("type", (String) parent.getItemAtPosition(position));
                 breed = (String) parent.getItemAtPosition(position);
-                threadStart(breed);
+
             }
 
             @Override
@@ -125,7 +125,19 @@ public class MainActivity extends AppCompatActivity {
 
        String name = ((TextView)this.findViewById(R.id.NameText)).getText().toString();
         int age = Integer.parseInt(  ((TextView)this.findViewById(R.id.AgeText)).getText().toString()  );
-        while(!linkFound);
+        switch(breed)
+        {
+            case"Labrador": link = ""+R.drawable.labrador; break;
+            case  "Chihuahua": link = ""+R.drawable.chihuahua; break;
+            case "Golden Retriever": link = ""+R.drawable.golden; break;
+            case  "Rottweiler": link = ""+R.drawable.rott; break;
+            case   "Siberian Husky": link = ""+R.drawable.husky; break;
+            case   "German Shepherd": link = ""+R.drawable.german; break;
+            case      "Pug": link = ""+R.drawable.pugg; break;
+            case      "Dalmatian": link = ""+R.drawable.dalmation; break;
+            case     "Saint Bernard": link = ""+R.drawable.saint; break;
+            case     "Poodle": link = ""+R.drawable.poodle; break;
+        }
         db.addPet(name, new Date(), breed,  gender,  type, age, link);
 
 
@@ -141,12 +153,7 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
         finish();
     }
-    public static void threadStart(String breedName) {
 
-        MyThread thread = new MyThread(breedName);
-        new Thread(thread).start();
-
-    }
     public static void readJSON() {
         Log.d("API", "Reading JSON from local server");
         Thread thread = new Thread(new Runnable() {
@@ -167,7 +174,7 @@ public class MainActivity extends AppCompatActivity {
                         breeds = object.get("breeds").toString().split(",");
                         for(int i = 0;i<breeds.length;i++)
                         {
-                            breeds[i].replace('"','~').replace("~","").replace("[","").replace("]","");
+                            breeds[i]=breeds[i].replace('"','~').replace("~","").replace("[","").replace("]","");
                         }
                         Log.d("JSON RESULT", object.toString());
                         Log.d("Connection ID", in.read() + "");
@@ -190,40 +197,4 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 }
-class MyThread implements Runnable {
-    String breed ;
-    String jsonString = "";
-    public MyThread(String breed) {
-       this.breed = breed;
-    }
 
-    public void run() {
-        try {
-            Log.d("ss", "tt");
-            URL url = new URL("https://www.googleapis.com/customsearch/v1?key=AIzaSyCNycA4uQW47LBZcqr6AQvjUNF8q3OOuyU&cx=002441175508441743644:qmd_a7ahiok&q="+ URLEncoder.encode(breed, "UTF-8")+"&searchType=image&fileType=jpg&imgSize=medium&alt=json&num=1&start=1");
-            HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
-            try {
-                String inputlines = "";
-                BufferedReader in = new BufferedReader(new InputStreamReader(url.openStream()));
-                while ((inputlines = in.readLine()) != null) {
-                    jsonString += inputlines;
-                }
-                JSONObject object = new JSONObject(jsonString);
-                String items = object.get("items") + "";
-                items = items.replace("[", "");
-                items = items.replace("]", "");
-                JSONObject results = new JSONObject(items);
-                MainActivity.link = results.get("link") + "";
-                Log.d("resul", MainActivity.link);
-                MainActivity.linkFound = true;
-
-            } finally {
-                urlConnection.disconnect();
-            }
-        } catch (Exception e) {
-            Log.d("Error", "Error");
-            e.printStackTrace();
-        }
-
-    }
-}

@@ -84,7 +84,7 @@ public class DBHandler extends  SQLiteOpenHelper{
             do {
                 Pet pet = new Pet(cursor.getString(0), cursor.getString(1),cursor.getString(2),
                                   cursor.getString(3), Integer.parseInt( cursor.getString(5)),
-                                  cursor.getString(6),cursor.getString(7),Integer.parseInt( cursor.getString(4)),cursor.getString(7),cursor.getString(8));
+                                  cursor.getString(6),cursor.getString(9),Integer.parseInt( cursor.getString(4)),cursor.getString(7),cursor.getString(8));
                 pets.add(pet);
             }
             while (cursor.moveToNext());

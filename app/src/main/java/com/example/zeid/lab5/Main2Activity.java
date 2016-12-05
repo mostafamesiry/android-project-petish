@@ -77,7 +77,7 @@ public class Main2Activity extends AppCompatActivity {
         for (int i =0;i<pets.size();i++) {
             names[i]=pets.get(i).name;
             breed[i]=pets.get(i).breed+"   "+pets.get(i).gender;
-            ages[i]=pets.get(i).age+" "+pets.get(i).price+"";;
+            ages[i]=pets.get(i).age+"";
             Log.d("PRICE:",pets.get(i).price+"");
             images[i] = pets.get(i).link;
         }
@@ -117,7 +117,7 @@ public class Main2Activity extends AppCompatActivity {
                     Log.d("Touched Element", pets.get(position).name);
                     AlertDialog alertDialog = new AlertDialog.Builder(Main2Activity.this).create();
                     alertDialog.setTitle("Contact Details");
-                    alertDialog.setMessage(MainActivity.db.getAllPets().get(position).name);
+                    alertDialog.setMessage(MainActivity.db.getAllPets().get(position).ownerName+'\n'+MainActivity.db.getAllPets().get(position).ownerNumber);
                     alertDialog.setIcon(R.mipmap.dog);
                     alertDialog.show();
 
@@ -132,7 +132,7 @@ public class Main2Activity extends AppCompatActivity {
                 Log.d("Feedback", "long press on ListView Item");
                 AlertDialog alertDialog = new AlertDialog.Builder(Main2Activity.this).create();
                 alertDialog.setTitle("Price");
-                alertDialog.setMessage(MainActivity.db.getAllPets().get(position).name);
+                alertDialog.setMessage(MainActivity.db.getAllPets().get(position).price+"");
                 alertDialog.setIcon(R.mipmap.dog);
                 alertDialog.show();
                 return true;

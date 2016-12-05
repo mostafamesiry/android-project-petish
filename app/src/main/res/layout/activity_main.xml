@@ -23,24 +23,6 @@
         android:layout_alignParentEnd="true"
         android:layout_alignParentStart="true" />
 
-    <Button
-        android:text="Add Pet"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/button"
-        android:onClick="addPetButtonPressed"
-        android:layout_above="@+id/button3"
-        android:layout_centerHorizontal="true" />
-
-    <Button
-        android:text="Back"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/button3"
-        android:onClick="backButtonPressed"
-        android:layout_alignParentBottom="true"
-        android:layout_alignStart="@+id/button" />
-
     <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -100,5 +82,23 @@
         android:layout_marginTop="15dp"
         android:layout_below="@+id/Gender"
         android:layout_alignParentStart="true" />
+
+    <Button
+        android:text="Add Pet"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/button"
+        android:onClick="addPetButtonPressed"
+        android:layout_below="@+id/AnimalBreed" />
+
+    <Button
+        android:text="Back"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/button3"
+        android:onClick="backButtonPressed"
+        android:layout_below="@+id/AnimalBreed"
+        android:layout_toEndOf="@+id/button"
+        android:layout_marginStart="82dp" />
 
 </RelativeLayout>

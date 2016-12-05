@@ -116,7 +116,7 @@ public class Main2Activity extends AppCompatActivity {
                     Log.d("Touched Element", pets.get(position).name);
                     AlertDialog alertDialog = new AlertDialog.Builder(Main2Activity.this).create();
                     alertDialog.setTitle("Contact Details");
-                    alertDialog.setMessage("number here");
+                    alertDialog.setMessage(MainActivity.db.getAllPets().get(position).name);
                     alertDialog.setIcon(R.mipmap.dog);
                     alertDialog.show();
 
@@ -127,12 +127,11 @@ public class Main2Activity extends AppCompatActivity {
 
         listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
-            public boolean onItemLongClick(AdapterView<?> arg0, View arg1, int pos, long id) {
-                // TODO Auto-generated method stub
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
                 Log.d("Feedback", "long press on ListView Item");
                 AlertDialog alertDialog = new AlertDialog.Builder(Main2Activity.this).create();
                 alertDialog.setTitle("Price");
-                alertDialog.setMessage("number here");
+                alertDialog.setMessage(MainActivity.db.getAllPets().get(position).name);
                 alertDialog.setIcon(R.mipmap.dog);
                 alertDialog.show();
                 return true;

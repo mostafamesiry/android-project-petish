@@ -1,5 +1,6 @@
 package com.example.zeid.lab5;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
@@ -10,13 +11,17 @@ import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewConfiguration;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
+import android.widget.Toast;
 
 import org.json.JSONObject;
 
@@ -37,6 +42,7 @@ import java.util.HashMap;
 import java.util.List;
 
 
+import static android.provider.AlarmClock.EXTRA_MESSAGE;
 import static java.security.AccessController.getContext;
 
 
@@ -99,6 +105,25 @@ public class Main2Activity extends AppCompatActivity {
 
         // Getting a reference to listview of main.xml layout file
         ListView listView = ( ListView ) findViewById(R.id.listView);
+
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            long lastTapTime = 0;
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                if(System.currentTimeMillis()-lastTapTime<=500) {
+                    Log.d("Feedback", "clicked on ListView Item");
+                    ArrayList<Pet> pets = MainActivity.db.getAllPets();
+                    Log.d("Touched Element", pets.get(position).name);
+                    AlertDialog alertDialog = new AlertDialog.Builder(Main2Activity.this).create();
+                    alertDialog.setTitle("Contact Details");
+                    alertDialog.setMessage("number here");
+                    alertDialog.setIcon(R.mipmap.dog);
+                    alertDialog.show();
+
+                }
+                lastTapTime = System.currentTimeMillis();
+            }
+        });
 
         // Setting the adapter to the listView
         listView.setAdapter(adapter);
@@ -200,6 +225,5 @@ Log.d("Error",sqlEx.toString());
         Intent intent = new Intent(this,Main3Activity.class);
         startActivity(intent);
     }
-
 }
 

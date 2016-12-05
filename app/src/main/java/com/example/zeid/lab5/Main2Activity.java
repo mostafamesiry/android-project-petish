@@ -111,7 +111,7 @@ public class Main2Activity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 if(System.currentTimeMillis()-lastTapTime<=500) {
-                    Log.d("Feedback", "clicked on ListView Item");
+                    Log.d("Feedback", "double tap on ListView Item");
                     ArrayList<Pet> pets = MainActivity.db.getAllPets();
                     Log.d("Touched Element", pets.get(position).name);
                     AlertDialog alertDialog = new AlertDialog.Builder(Main2Activity.this).create();
@@ -122,6 +122,20 @@ public class Main2Activity extends AppCompatActivity {
 
                 }
                 lastTapTime = System.currentTimeMillis();
+            }
+        });
+
+        listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> arg0, View arg1, int pos, long id) {
+                // TODO Auto-generated method stub
+                Log.d("Feedback", "long press on ListView Item");
+                AlertDialog alertDialog = new AlertDialog.Builder(Main2Activity.this).create();
+                alertDialog.setTitle("Price");
+                alertDialog.setMessage("number here");
+                alertDialog.setIcon(R.mipmap.dog);
+                alertDialog.show();
+                return true;
             }
         });
 
